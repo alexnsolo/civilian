@@ -1,0 +1,17 @@
+@import "_mixins"
+
+.town
+	.civilians
+
+	.civilian
+		+border-radius(40px)
+		float: left
+		height: 17px
+		width: 17px
+		margin: 5px
+		background-color: purple
+		border: 3px solid rgba(white, 0.6)
+		cursor: pointer
+
+		&:hover
+			background-color: lighten(purple, 10%)

@@ -1,0 +1,9 @@
+.towns.container
+	h1 Towns
+	button.btn.btn-sm.btn-primary(ng-click="createTown()")
+		i.fa.fa-search
+		span Find a new town
+		
+	.towns-list
+		.town(ng-repeat="town in towns" ng-click="gotoTown(town)")
+			.name(ng-bind="town.name")
