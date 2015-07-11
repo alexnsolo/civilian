@@ -1,44 +1,56 @@
 .town.container
-	h1(ng-bind="town.name")
-	hr/
+
+	.town-info
+		h1(ng-bind="town.name")
+		.time
+			strong Turn: &nbsp;
+			span(ng-bind="town.time")
+		button.btn.btn-sm.btn-primary(ng-click="processTown()" type="button")
+			span Next Turn
+			
 	
 	.row
 		.col-md-6
 			.well.well-sm.clearfix
-				.civilian-dot(
-					ng-repeat="civilian in civilians"
-					ng-click="selectCivilian(civilian)"
-					ng-class="{'selected': isCivilianSelected(civilian), 'highlighted': isCivilianHighlighted(civilian)}"
-				)
+				.view-switcher.btn-group
+					label.btn.btn-xs.btn-default(ng-model="dotDisplay" btn-radio="'Happiness'") Happiness
+					label.btn.btn-xs.btn-default(ng-model="dotDisplay" btn-radio="'Disposition'") Disposition
+				.civilian-dots
+					.civilian-dot(
+						ng-repeat="civilian in civilians"
+						ng-click="selectCivilian(civilian)"
+						ng-class="{'selected': isCivilianSelected(civilian), 'highlighted': isCivilianHighlighted(civilian)}"
+						ng-style="getCivilianStyle(civilian)"
+					)
 				
 		.col-md-6
 			div(ng-if="selectedCivilian")
-				.civilian-info.well.well-sm.clearfix
-					.property
-						.label Name
-						.value(ng-bind="selectedCivilian.name")
-					.property
-						.label Happiness
-						.value(ng-bind="selectedCivilian.happiness")
-					.property
-						.label Disposition
-						.value(ng-bind="selectedCivilian.disposition")
-					.property
-						.label Relationships
-						.value
-							table
-								tr(ng-repeat="relationship in selectedCivilian.relationships")
-									td.relationship-person(
-										ng-bind="getCivilianName(relationship.other_id)"
-										ng-mouseenter="highlightCivilian(relationship.other_id)"
-										ng-mouseleave="dehighlightCivilian()"
-										width="150"
-									)
-									td(ng-bind="relationship.influence")
-								tr(ng-hide="selectedCivilian.relationships.length" colspan="2")
-									td
-										.text-muted None
-								
+				.well.well-sm.clearfix
+					.civilian-info
+						.property
+							.label Name
+							.value(ng-bind="selectedCivilian.name")
+						.property
+							.label Happiness
+							.value(ng-bind="selectedCivilian.happiness")
+						.property
+							.label Disposition
+							.value(ng-bind="selectedCivilian.disposition")
+						.property
+							.label Relationships
+							.value
+								table
+									tr(ng-repeat="relationship in selectedCivilian.relationships")
+										td.relationship-person(
+											ng-bind="getCivilianName(relationship.other_id)"
+											ng-mouseenter="highlightCivilian(relationship.other_id)"
+											ng-mouseleave="dehighlightCivilian()"
+											width="150"
+										)
+										td(ng-bind="relationship.influence")
+									tr(ng-hide="selectedCivilian.relationships.length" colspan="2")
+										td
+											.text-muted None
+					.civilian-actions
+						
 							
-					
-					pre {{selectedCivilian | json}}

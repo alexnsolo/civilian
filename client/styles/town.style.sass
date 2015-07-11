@@ -3,6 +3,9 @@
 $civilian-color: hsl(201, 50%, 45%)
 
 .town
+	.town-info
+		margin: 10px 0 20px 0
+
 	.civilian-dot
 		+border-radius(40px)
 		float: left
@@ -17,10 +20,13 @@ $civilian-color: hsl(201, 50%, 45%)
 			background-color: lighten($civilian-color, 10%)
 
 		&.selected
-			border: 3px solid rgba(black, 0.4)
+			border: 3px solid rgba(black, 0.8)
 
 		&.highlighted
-			border: 3px solid hsl(7, 54%, 52%)
+			border: 3px solid rgba(black, 0.3)
+
+	.view-switcher
+		margin-bottom: 10px
 
 	.civilian-info
 		.property

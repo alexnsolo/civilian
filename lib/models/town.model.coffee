@@ -24,5 +24,6 @@ class @Town extends Base
 
 	constructor: (properties) ->
 		@name = ''
+		@time = 0
 
 		super(properties)

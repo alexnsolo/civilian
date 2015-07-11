@@ -5,6 +5,21 @@ angular.module('civilian').controller('TownCtrl', ['$scope', '$meteor', '$state'
 	$scope.selectedCivilian = null
 	$scope.highlightedCivilian = null
 
+	$scope.dotDisplay = 'Happiness'
+
+	$scope.processTown = ->
+		$meteor.call('Town.process', $scope.town['_id'])
+
+	$scope.getCivilianStyle = (civilian) ->
+		if $scope.dotDisplay is 'Happiness'
+			hue = 120 * (civilian.happiness/100)
+		else if $scope.dotDisplay is 'Disposition'
+			hue = 120 * (civilian.disposition/100)
+			
+		style = {}
+		style['background-color'] = "hsl(#{hue}, 50%, 45%)"
+		return style
+
 	$scope.selectCivilian = (civilian) ->
 		$scope.selectedCivilian = civilian
 
