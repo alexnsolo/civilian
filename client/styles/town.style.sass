@@ -43,6 +43,11 @@ $civilian-color: hsl(201, 50%, 45%)
 		&.highlighted
 			border: 3px solid rgba(black, 0.3)
 
+	.civilian-face
+		height: 60px
+		width: 60px
+		margin: 4px 0px 0px 12px
+
 	.view-switcher
 		position: fixed
 		bottom: 20px
@@ -93,6 +98,14 @@ $civilian-color: hsl(201, 50%, 45%)
 
 				td
 					padding-bottom: 4px
+
+				.numeric
+					+border-radius(3px)
+					font-weight: bold
+					text-align: center
+					width: 30px
+					color: hsl(207, 30%, 40%)
+					background-color: hsl(207, 30%, 90%)
 
 			.effect
 				+border-radius(3px)

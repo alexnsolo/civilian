@@ -8,7 +8,7 @@ angular.module('civilian').controller('TownCtrl', ['$scope', '$meteor', '$state'
 
 	$scope.dotDisplay = 'Happiness'
 
-	$timeout ->
+	$timeout( ->
 		jsPlumb.ready ->
 			$scope.canvas = jsPlumb.getInstance(
 				Container: "canvas"
@@ -18,12 +18,24 @@ angular.module('civilian').controller('TownCtrl', ['$scope', '$meteor', '$state'
 				EndpointStyle: { fillStyle: "rgb(78, 78, 78)" },
 			)
 
+		for civilian in $scope.civilians
+			faces.generate("#{civilian['_id']}-face")
+
+	, 2000)
+
 	# $interval( ->
 	# 	$scope.processTown()
 	# , 100)
 
 	$scope.processTown = ->
 		$meteor.call('Town.process', $scope.town['_id'])
+
+	$scope.getValueStyle = (value) ->
+		hue = 120 * (value/100)
+		style = {}
+		style['color'] = "hsl(#{hue}, 70%, 40%)"
+		style['background-color'] = "hsl(#{hue}, 70%, 90%)"
+		return style
 
 	$scope.getCivilianStyle = (civilian) ->
 		if $scope.dotDisplay is 'Happiness'
@@ -36,10 +48,12 @@ angular.module('civilian').controller('TownCtrl', ['$scope', '$meteor', '$state'
 		return style
 
 	$scope.selectCivilian = (civilian) ->
+		$scope.canvas.detachEveryConnection()
 		$scope.selectedCivilian = civilian
+
+		return unless civilian?
 		$scope.selectedHistory = Action.db.find({$or: [{target_id: civilian['_id']}, {source_id: civilian['_id']}]}, {sort: {'time': -1}}).fetch()
 
-		$scope.canvas.detachEveryConnection()
 		influencee_ids = _.pluck(civilian['relationships'], 'other_id')
 		for id in influencee_ids
 			target = document.getElementById(id)

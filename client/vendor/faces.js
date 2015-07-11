@@ -1,4 +1,4 @@
-var faces = (function () {
+this.faces = (function () {
     "use strict";
 
     var eye = [], eyebrow = [], hair = [], head = [], mouth = [], nose = [];
@@ -259,54 +259,6 @@ var faces = (function () {
         scaleCentered(e, fatScale(fatness), 1);
     });
     hair.push(function (paper, fatness) {
-        // Flat top
-        var e;
-
-        e = newPath(paper);
-        e.setAttribute("d", "M 25,60" +
-                       "h 352" +
-                       "v 190" +
-                       "c 0,0 -180,-150 -352,0" +
-                       "v -190");
-        scaleCentered(e, fatScale(fatness), 1);
-    });
-    hair.push(function (paper, fatness) {
-        // Afro
-        var e;
-
-        e = newPath(paper);
-        e.setAttribute("d", "M 25,250" +
-                       "a 210,150 0 1 1 352,0" +
-                       "c 0,0 -180,-150 -352,0");
-        scaleCentered(e, fatScale(fatness), 1);
-    });
-    hair.push(function (paper, fatness) {
-        // Cornrows
-        var e;
-
-        e = newPath(paper);
-        e.setAttribute("d", "M 36,229" +
-                       "v -10" +
-                       "m 40,-10" +
-                       "v -60" +
-                       "m 50,37" +
-                       "v -75" +
-                       "m 50,65" +
-                       "v -76" +
-                       "m 50,76" +
-                       "v -76" +
-                       "m 50,93" +
-                       "v -75" +
-                       "m 50,92" +
-                       "v -60" +
-                       "m 40,80" +
-                       "v -10");
-        e.setAttribute("stroke", "#000");
-        e.setAttribute("stroke-linecap", "round");
-        e.setAttribute("stroke-width", "22");
-        scaleCentered(e, fatScale(fatness), 1);
-    });
-    hair.push(function (paper, fatness) {
         // Intentionally left blank (bald)
     });
 
@@ -358,7 +310,7 @@ var faces = (function () {
 
         face = {head: {}, eyebrows: [{}, {}], eyes: [{}, {}], nose: {}, mouth: {}, hair: {}};
         face.fatness = Math.random();
-        colors = ["#f2d6cb", "#ddb7a0", "#ce967d", "#bb876f", "#aa816f", "#a67358", "#ad6453", "#74453d", "#5c3937"];
+        colors = ["#f2d6cb", "#ddb7a0", "#ce967d", "#bb876f", "#aa816f", "#a67358", "#ad6453", "#74453d"];
         face.color = colors[getId(colors)];
 
         face.head = {id: getId(head)};

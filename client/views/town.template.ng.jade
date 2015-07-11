@@ -21,6 +21,7 @@
 					ng-class="{'selected': isCivilianSelected(civilian), 'highlighted': isCivilianHighlighted(civilian)}"
 					ng-style="getCivilianStyle(civilian)"
 				)
+					.civilian-face(id="{{civilian._id}}-face")
 
 	.civilian-info
 		div(ng-if="selectedCivilian")
@@ -29,10 +30,12 @@
 				.value(ng-bind="selectedCivilian.name")
 			.property
 				.label Happiness
-				.value(ng-bind="selectedCivilian.happiness")
+				.value
+					.numeric(ng-bind="selectedCivilian.happiness" ng-style="getValueStyle(selectedCivilian.happiness)")
 			.property
 				.label Disposition
-				.value(ng-bind="selectedCivilian.disposition")
+				.value
+					.numeric(ng-bind="selectedCivilian.disposition" ng-style="getValueStyle(selectedCivilian.disposition)")
 			.property
 				.label Influence
 				.value
@@ -44,7 +47,8 @@
 								ng-mouseleave="dehighlightCivilian()"
 								width="150"
 							)
-							td(ng-bind="relationship.influence")
+							td
+								.numeric(ng-bind="relationship.influence")
 						tr(ng-hide="selectedCivilian.relationships.length" colspan="2")
 							td
 								.text-muted None
