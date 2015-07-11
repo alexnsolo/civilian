@@ -8,11 +8,11 @@ MIN_INFLUENCE = 20
 MAX_INFLUENCE = 80
 
 Meteor.methods
-	'Town.create': ->
+	'Town.create': (name) ->
 
 		# Generate town
 		town = {}
-		town['name'] = Town.generateName()
+		town['name'] = name
 		town['_id'] = Town.db.insert(town)
 
 		# Generate civilians

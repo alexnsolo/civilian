@@ -48,6 +48,13 @@ $civilian-color: hsl(201, 50%, 45%)
 		width: 60px
 		margin: 4px 0px 0px 12px
 
+	.civilian-arrested
+		color: rgba(black, 0.5)
+		font-size: 60px
+		position: relative
+		top: -60px
+		left: 2px
+
 	.view-switcher
 		position: fixed
 		bottom: 20px
@@ -77,10 +84,23 @@ $civilian-color: hsl(201, 50%, 45%)
 
 				.value
 					display: block
-					max-height: 350px
+					max-height: 320px
 					overflow-y: auto
 					border: none
 					padding-right: 15px
+
+			&.actions
+				.label
+					display: block
+					width: 100%
+					border-bottom: 1px solid #cfcfcf
+					padding-bottom: 3px
+					margin-bottom: 6px
+					margin-top: 10px
+
+				.value
+					display: block
+					border: none
 
 			.label
 				display: inline-block
@@ -98,14 +118,6 @@ $civilian-color: hsl(201, 50%, 45%)
 
 				td
 					padding-bottom: 4px
-
-				.numeric
-					+border-radius(3px)
-					font-weight: bold
-					text-align: center
-					width: 30px
-					color: hsl(207, 30%, 40%)
-					background-color: hsl(207, 30%, 90%)
 
 			.effect
 				+border-radius(3px)
@@ -128,3 +140,11 @@ $civilian-color: hsl(201, 50%, 45%)
 
 				&:hover
 					text-decoration: underline
+
+	.numeric
+		+border-radius(3px)
+		font-weight: bold
+		text-align: center
+		width: 30px
+		color: hsl(207, 30%, 40%)
+		background-color: hsl(207, 30%, 90%)

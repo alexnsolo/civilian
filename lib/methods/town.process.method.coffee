@@ -16,12 +16,13 @@ Meteor.methods
 		civilians = Civilian.db.find(town_id: town['_id']).fetch()
 
 		for civilian in civilians
+			freedom = civilian['under_arrest'] is false
 			relationship = _.sample(civilian['relationships'])
 			take_any_action = _.random(0, 100) < ANY_ACTION_CHANCE
 			take_bad_action = civilian['disposition'] <= BAD_DISPOSITION_TRIGGER
 			take_good_action = civilian['disposition'] >= GOOD_DISPOSITION_TRIGGER
 
-			if relationship and take_any_action and (take_bad_action or take_good_action)
+			if freedom and relationship and take_any_action and (take_bad_action or take_good_action)
 				if civilian['disposition'] > 50
 					description = _.sample(_.filter(ActionDescriptions, disposition: 'good'))
 				else

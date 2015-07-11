@@ -7,6 +7,7 @@ angular.module('civilian').controller('TownCtrl', ['$scope', '$meteor', '$state'
 	$scope.selectedHistory = []
 
 	$scope.dotDisplay = 'Happiness'
+	$scope.civilianFilter = {'was_deported': false}
 
 	$timeout( ->
 		jsPlumb.ready ->
@@ -19,7 +20,7 @@ angular.module('civilian').controller('TownCtrl', ['$scope', '$meteor', '$state'
 			)
 
 		for civilian in $scope.civilians
-			faces.generate("#{civilian['_id']}-face")
+			faces.generate("#{civilian['_id']}-face") unless civilian['was_deported'] is true
 
 	, 2000)
 
@@ -29,6 +30,18 @@ angular.module('civilian').controller('TownCtrl', ['$scope', '$meteor', '$state'
 
 	$scope.processTown = ->
 		$meteor.call('Town.process', $scope.town['_id'])
+
+	$scope.arrest = (civilian) ->
+		Civilian.db.update(civilian['_id'], {$set: {'under_arrest': true, 'happiness': 0}})
+
+	$scope.release = (civilian) ->
+		Civilian.db.update(civilian['_id'], {$set: {'under_arrest': false}})
+
+	$scope.getTotalTownHappiness = (civilians) ->
+		amount = -(civilians.length * 30)
+		for civilian in civilians
+			amount += civilian['happiness']
+		return amount
 
 	$scope.getValueStyle = (value) ->
 		hue = 120 * (value/100)
@@ -49,6 +62,7 @@ angular.module('civilian').controller('TownCtrl', ['$scope', '$meteor', '$state'
 
 	$scope.selectCivilian = (civilian) ->
 		$scope.canvas.detachEveryConnection()
+		$scope.canvas.repaintEverything()
 		$scope.selectedCivilian = civilian
 
 		return unless civilian?

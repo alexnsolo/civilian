@@ -2,9 +2,14 @@
 	.town-panel
 		.town-header
 			.name(ng-bind="town.name")
-			.time
-				strong Turn: &nbsp;
-				span(ng-bind="town.time")
+			.town-stats
+				.town-stat
+					strong Turn&nbsp;
+					span.numeric(ng-bind="town.time")
+				.town-stat
+					strong Happiness&nbsp;
+					span.numeric(ng-bind="getTotalTownHappiness(civilians)")
+				
 			button.btn.btn-sm.btn-primary(ng-click="processTown()" type="button")
 				span Next Turn
 		
@@ -16,12 +21,13 @@
 			.civilian-dots
 				.civilian-dot(
 					id="{{civilian._id}}"
-					ng-repeat="civilian in civilians"
+					ng-repeat="civilian in civilians | filter:civilianFilter"
 					ng-click="selectCivilian(civilian)"
 					ng-class="{'selected': isCivilianSelected(civilian), 'highlighted': isCivilianHighlighted(civilian)}"
 					ng-style="getCivilianStyle(civilian)"
 				)
 					.civilian-face(id="{{civilian._id}}-face")
+					.civilian-arrested.glyphicon.glyphicon-menu-hamburger(ng-show="civilian.under_arrest")
 
 	.civilian-info
 		div(ng-if="selectedCivilian")
@@ -78,4 +84,11 @@
 						tr(ng-hide="selectedHistory.length" colspan="2")
 							td
 								.text-muted None
+			.property.actions
+				.label Actions
+				.value
+					button.btn.btn-xs.btn-danger(ng-click="arrest(selectedCivilian)" ng-hide="selectedCivilian.under_arrest")
+						span Arrest
+					button.btn.btn-xs.btn-primary(ng-click="release(selectedCivilian)" ng-show="selectedCivilian.under_arrest")
+						span Release
 								

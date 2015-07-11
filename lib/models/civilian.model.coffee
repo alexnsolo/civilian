@@ -11,6 +11,8 @@ class @Civilian extends Base
 		@relationships = []
 		@history = []
 		@town_id = null
+		@was_deported = false
+		@under_arrest = false
 
 		super(properties)
 
