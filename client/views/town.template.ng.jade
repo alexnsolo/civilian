@@ -1,83 +1,76 @@
-.town.container
+.town
+	.town-panel
+		.town-header
+			.name(ng-bind="town.name")
+			.time
+				strong Turn: &nbsp;
+				span(ng-bind="town.time")
+			button.btn.btn-sm.btn-primary(ng-click="processTown()" type="button")
+				span Next Turn
+		
+		.view-switcher.btn-group
+			label.btn.btn-xs.btn-default(ng-model="dotDisplay" btn-radio="'Happiness'") Happiness
+			label.btn.btn-xs.btn-default(ng-model="dotDisplay" btn-radio="'Disposition'") Disposition
 
-	.town-info
-		h1(ng-bind="town.name")
-		.time
-			strong Turn: &nbsp;
-			span(ng-bind="town.time")
-		button.btn.btn-sm.btn-primary(ng-click="processTown()" type="button")
-			span Next Turn
-			
-	
-	.row
-		.col-md-6
-			.well.well-sm.clearfix
-				.view-switcher.btn-group
-					label.btn.btn-xs.btn-default(ng-model="dotDisplay" btn-radio="'Happiness'") Happiness
-					label.btn.btn-xs.btn-default(ng-model="dotDisplay" btn-radio="'Disposition'") Disposition
-				.civilian-dots
-					.civilian-dot(
-						ng-repeat="civilian in civilians"
-						ng-click="selectCivilian(civilian)"
-						ng-class="{'selected': isCivilianSelected(civilian), 'highlighted': isCivilianHighlighted(civilian)}"
-						ng-style="getCivilianStyle(civilian)"
-					)
-				
-		.col-md-6
-			div(ng-if="selectedCivilian")
-				.well.well-sm.clearfix
-					.civilian-info
-						.property
-							.label Name
-							.value(ng-bind="selectedCivilian.name")
-						.property
-							.label Happiness
-							.value(ng-bind="selectedCivilian.happiness")
-						.property
-							.label Disposition
-							.value(ng-bind="selectedCivilian.disposition")
-						.property
-							.label Influence
-							.value
-								table
-									tr(ng-repeat="relationship in selectedCivilian.relationships")
-										td.relationship-person(
-											ng-bind="getCivilianName(relationship.other_id)"
-											ng-mouseenter="highlightCivilian(relationship.other_id)"
-											ng-mouseleave="dehighlightCivilian()"
-											width="150"
-										)
-										td(ng-bind="relationship.influence")
-									tr(ng-hide="selectedCivilian.relationships.length" colspan="2")
-										td
-											.text-muted None
-						.property
-							.label History
-							.value.history
-								table
-									tr(ng-show="selectedHistory.length")
-										th(width="50") Turn
-										th(width="300") Event
-										th(width="50") Effect
-									tr(ng-repeat="action in selectedHistory")
-										td(ng-bind="action.time" valign="top")
-										td.relationship-person(
-											ng-bind="getActionDescription(action)"
-											ng-mouseenter="highlightActionCivilian(action)"
-											ng-mouseleave="dehighlightCivilian()"
-											width="150"
-										)
-										td(valign="top")
-											.effect(
-												ng-show="civilianIsTarget(action)"
-												ng-bind="action.calculateEffect()"
-												ng-class="{'good': action.disposition>=50, 'bad': action.disposition<50}"
-											)
-											.effect(ng-hide="civilianIsTarget(action)") None
-									tr(ng-hide="selectedHistory.length" colspan="2")
-										td
-											.text-muted None
-					
-					.civilian-actions
-						
-							
+		.town-canvas
+			.civilian-dots
+				.civilian-dot(
+					ng-repeat="civilian in civilians"
+					ng-click="selectCivilian(civilian)"
+					ng-class="{'selected': isCivilianSelected(civilian), 'highlighted': isCivilianHighlighted(civilian)}"
+					ng-style="getCivilianStyle(civilian)"
+				)
+
+	.civilian-info
+		div(ng-if="selectedCivilian")
+			.property
+				.label Name
+				.value(ng-bind="selectedCivilian.name")
+			.property
+				.label Happiness
+				.value(ng-bind="selectedCivilian.happiness")
+			.property
+				.label Disposition
+				.value(ng-bind="selectedCivilian.disposition")
+			.property
+				.label Influence
+				.value
+					table
+						tr(ng-repeat="relationship in selectedCivilian.relationships")
+							td.relationship-person(
+								ng-bind="getCivilianName(relationship.other_id)"
+								ng-mouseenter="highlightCivilian(relationship.other_id)"
+								ng-mouseleave="dehighlightCivilian()"
+								width="150"
+							)
+							td(ng-bind="relationship.influence")
+						tr(ng-hide="selectedCivilian.relationships.length" colspan="2")
+							td
+								.text-muted None
+			.property.history
+				.label History
+				.value
+					table
+						tr(ng-show="selectedHistory.length")
+							th(width="50") Turn
+							th(width="300") Event
+							th(width="50") Effect
+						tr(ng-repeat="action in selectedHistory")
+							td(ng-bind="action.time" valign="top")
+							td.relationship-person(
+								ng-bind="getActionDescription(action)"
+								ng-mouseenter="highlightActionCivilian(action)"
+								ng-mouseleave="dehighlightCivilian()"
+								width="150"
+							)
+							td(valign="top")
+								.effect(
+									ng-show="civilianIsTarget(action)"
+									ng-bind="action.calculateEffect()"
+									ng-class="{'good': action.disposition>=50, 'bad': action.disposition<50}"
+								)
+								.effect(ng-hide="civilianIsTarget(action)") None
+						tr(ng-hide="selectedHistory.length" colspan="2")
+							td
+								.text-muted None
+								
