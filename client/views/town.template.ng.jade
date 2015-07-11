@@ -4,8 +4,41 @@
 	
 	.row
 		.col-md-6
-			h3 Civilians
-			.civilians.well.well-sm.clearfix
-				.civilian(ng-repeat="civilian in civilians")
+			.well.well-sm.clearfix
+				.civilian-dot(
+					ng-repeat="civilian in civilians"
+					ng-click="selectCivilian(civilian)"
+					ng-class="{'selected': isCivilianSelected(civilian), 'highlighted': isCivilianHighlighted(civilian)}"
+				)
 				
 		.col-md-6
+			div(ng-if="selectedCivilian")
+				.civilian-info.well.well-sm.clearfix
+					.property
+						.label Name
+						.value(ng-bind="selectedCivilian.name")
+					.property
+						.label Happiness
+						.value(ng-bind="selectedCivilian.happiness")
+					.property
+						.label Disposition
+						.value(ng-bind="selectedCivilian.disposition")
+					.property
+						.label Relationships
+						.value
+							table
+								tr(ng-repeat="relationship in selectedCivilian.relationships")
+									td.relationship-person(
+										ng-bind="getCivilianName(relationship.other_id)"
+										ng-mouseenter="highlightCivilian(relationship.other_id)"
+										ng-mouseleave="dehighlightCivilian()"
+										width="150"
+									)
+									td(ng-bind="relationship.influence")
+								tr(ng-hide="selectedCivilian.relationships.length" colspan="2")
+									td
+										.text-muted None
+								
+							
+					
+					pre {{selectedCivilian | json}}

@@ -6,6 +6,9 @@ class @Civilian extends Base
 
 	constructor: (properties) ->
 		@name = ''
+		@happiness = 0
+		@disposition = 0
+		@relationships = []
 		@town_id = null
 
 		super(properties)

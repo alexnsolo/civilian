@@ -1,17 +1,47 @@
 @import "_mixins"
 
-.town
-	.civilians
+$civilian-color: hsl(201, 50%, 45%)
 
-	.civilian
+.town
+	.civilian-dot
 		+border-radius(40px)
 		float: left
 		height: 17px
 		width: 17px
 		margin: 5px
-		background-color: purple
+		background-color: $civilian-color
 		border: 3px solid rgba(white, 0.6)
 		cursor: pointer
 
 		&:hover
-			background-color: lighten(purple, 10%)
+			background-color: lighten($civilian-color, 10%)
+
+		&.selected
+			border: 3px solid rgba(black, 0.4)
+
+		&.highlighted
+			border: 3px solid hsl(7, 54%, 52%)
+
+	.civilian-info
+		.property
+			margin-bottom: 5px
+
+			.label
+				display: inline-block
+				font-weight: bold
+				color: black
+				vertical-align: top
+				padding-top: 6px
+				width: 80px
+				text-align: left
+
+			.value
+				display: inline-block
+				border-left: 1px solid #cfcfcf
+				padding-left: 10px
+
+			.relationship-person
+				cursor: pointer
+
+				&:hover
+					font-weight: bold
