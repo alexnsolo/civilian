@@ -51,6 +51,33 @@
 									tr(ng-hide="selectedCivilian.relationships.length" colspan="2")
 										td
 											.text-muted None
+						.property
+							.label History
+							.value.history
+								table
+									tr(ng-show="selectedHistory.length")
+										th(width="50") Turn
+										th(width="300") Event
+										th(width="50") Effect
+									tr(ng-repeat="action in selectedHistory")
+										td(ng-bind="action.time" valign="top")
+										td.relationship-person(
+											ng-bind="getActionDescription(action)"
+											ng-mouseenter="highlightActionCivilian(action)"
+											ng-mouseleave="dehighlightCivilian()"
+											width="150"
+										)
+										td(valign="top")
+											.effect(
+												ng-show="civilianIsTarget(action)"
+												ng-bind="action.calculateEffect()"
+												ng-class="{'good': action.disposition>=50, 'bad': action.disposition<50}"
+											)
+											.effect(ng-hide="civilianIsTarget(action)") None
+									tr(ng-hide="selectedHistory.length" colspan="2")
+										td
+											.text-muted None
+					
 					.civilian-actions
 						
 							

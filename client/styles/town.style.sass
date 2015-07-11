@@ -7,10 +7,10 @@ $civilian-color: hsl(201, 50%, 45%)
 		margin: 10px 0 20px 0
 
 	.civilian-dot
-		+border-radius(40px)
+		+border-radius(9999px)
 		float: left
-		height: 17px
-		width: 17px
+		height: 40px
+		width: 40px
 		margin: 5px
 		background-color: $civilian-color
 		border: 3px solid rgba(white, 0.6)
@@ -46,8 +46,31 @@ $civilian-color: hsl(201, 50%, 45%)
 				border-left: 1px solid #cfcfcf
 				padding-left: 10px
 
+				td
+					padding-bottom: 4px
+
+				&.history
+					max-height: 200px
+					overflow-y: auto
+
+			.effect
+				+border-radius(3px)
+				font-weight: bold
+				text-align: center
+				color: hsl(0, 0%, 40%)
+				background-color: hsl(0, 0%, 90%)
+
+				&.good
+					color: hsl(120, 70%, 40%)
+					background-color: hsl(120, 70%, 90%)
+
+				&.bad
+					color: hsl(0, 70%, 40%)
+					background-color: hsl(0, 70%, 90%)
+
 			.relationship-person
 				cursor: pointer
+				padding-right: 10px
 
 				&:hover
-					font-weight: bold
+					text-decoration: underline

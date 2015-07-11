@@ -22,13 +22,19 @@ Meteor.methods
 			take_good_action = civilian['disposition'] >= GOOD_DISPOSITION_TRIGGER
 
 			if relationship and take_any_action and (take_bad_action or take_good_action)
-				action = new Action(
+				if civilian['disposition'] > 50
+					description = _.sample(_.filter(ActionDescriptions, disposition: 'good'))
+				else
+					description = _.sample(_.filter(ActionDescriptions, disposition: 'bad'))
+
+				action = {
 					'source_id': civilian['_id']
 					'target_id': relationship['other_id']
 					'time': town['time']
+					'description_id': description['id']
 					'disposition': civilian['disposition']
 					'effectiveness': relationship['influence']
-				)
+				}
 
 				Meteor.call('Action.create', action)
 

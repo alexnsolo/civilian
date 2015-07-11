@@ -4,6 +4,7 @@ angular.module('civilian').controller('TownCtrl', ['$scope', '$meteor', '$state'
 
 	$scope.selectedCivilian = null
 	$scope.highlightedCivilian = null
+	$scope.selectedHistory = []
 
 	$scope.dotDisplay = 'Happiness'
 
@@ -26,6 +27,7 @@ angular.module('civilian').controller('TownCtrl', ['$scope', '$meteor', '$state'
 
 	$scope.selectCivilian = (civilian) ->
 		$scope.selectedCivilian = civilian
+		$scope.selectedHistory = Action.db.find({$or: [{target_id: civilian['_id']}, {source_id: civilian['_id']}]}, {sort: {'time': -1}}).fetch()
 
 	$scope.isCivilianSelected = (civilian) ->
 		return $scope.selectedCivilian is civilian
@@ -41,7 +43,36 @@ angular.module('civilian').controller('TownCtrl', ['$scope', '$meteor', '$state'
 		civilian = _.findWhere($scope.civilians, {_id})
 		$scope.highlightedCivilian = civilian
 
+	$scope.highlightActionCivilian = (action) ->
+		if action['target_id'] is $scope.selectedCivilian['_id']
+			_id = action['source_id']
+		else if action['source_id'] is $scope.selectedCivilian['_id']
+			_id = action['target_id']
+
+		civilian = _.findWhere($scope.civilians, {_id})
+		$scope.highlightedCivilian = civilian
+
 	$scope.dehighlightCivilian = ->
 		$scope.highlightedCivilian = null
+
+	$scope.getActionDescription = (action) ->
+		description = _.findWhere(ActionDescriptions, id: action['description_id'])
+		if action['source_id'] is $scope.selectedCivilian['_id']
+			template = {
+				source: $scope.selectedCivilian.name
+				target: Civilian.db.findOne(action['target_id']).name
+			}
+			compile =  _.template(description['source_description'])
+			return compile(template)
+		else if action['target_id'] is $scope.selectedCivilian['_id']
+			template = {
+				source: Civilian.db.findOne(action['source_id']).name
+				target: $scope.selectedCivilian.name
+			}
+			compile =  _.template(description['target_description'])
+			return compile(template)
+
+	$scope.civilianIsTarget = (action) ->
+		return action['target_id'] is $scope.selectedCivilian['_id']
 
 ])

@@ -13,3 +13,7 @@ class @Civilian extends Base
 		@town_id = null
 
 		super(properties)
+
+	adjustHappiness: (effect) ->
+		@happiness += effect
+		@happiness = Math.min(Math.max(@happiness, 0), 100)
