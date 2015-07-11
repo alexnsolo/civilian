@@ -1,4 +1,4 @@
-angular.module('civilian').controller('TownCtrl', ['$scope', '$meteor', '$state', ($scope, $meteor, $state) ->
+angular.module('civilian').controller('TownCtrl', ['$scope', '$meteor', '$state', '$interval', ($scope, $meteor, $state, $interval) ->
 	$scope.town = $scope.$meteorObject(Town.db, $state.params['town_id'])
 	$scope.civilians = $scope.$meteorCollection -> Civilian.db.find(town_id: $state.params['town_id'])
 
@@ -6,6 +6,10 @@ angular.module('civilian').controller('TownCtrl', ['$scope', '$meteor', '$state'
 	$scope.highlightedCivilian = null
 
 	$scope.dotDisplay = 'Happiness'
+
+	# $interval( ->
+	# 	$scope.processTown()
+	# , 100)
 
 	$scope.processTown = ->
 		$meteor.call('Town.process', $scope.town['_id'])
@@ -15,7 +19,7 @@ angular.module('civilian').controller('TownCtrl', ['$scope', '$meteor', '$state'
 			hue = 120 * (civilian.happiness/100)
 		else if $scope.dotDisplay is 'Disposition'
 			hue = 120 * (civilian.disposition/100)
-			
+
 		style = {}
 		style['background-color'] = "hsl(#{hue}, 50%, 45%)"
 		return style

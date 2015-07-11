@@ -9,6 +9,7 @@ class @Civilian extends Base
 		@happiness = 0
 		@disposition = 0
 		@relationships = []
+		@history = []
 		@town_id = null
 
 		super(properties)

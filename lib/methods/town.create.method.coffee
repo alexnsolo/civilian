@@ -53,16 +53,7 @@ Meteor.methods
 				}
 				civilian['relationships'].push(relationship)
 
-			updates = _.pick(town, ['relationships'])
+			updates = _.pick(civilian, ['relationships'])
 			Civilian.db.update(civilian['_id'], {$set: updates})
 
-		return town
-
-	'Town.process': (town_id) ->
-		town = Town.db.findOne(town_id)
-		town['time']++
-
-		updates = _.pick(town, ['time'])
-		Town.db.update(town['_id'], {$set: updates})
-
-		return @
+		return town['_id']
