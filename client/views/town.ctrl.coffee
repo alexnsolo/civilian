@@ -1,4 +1,4 @@
-angular.module('civilian').controller('TownCtrl', ['$scope', '$meteor', '$state', '$interval', ($scope, $meteor, $state, $interval) ->
+angular.module('civilian').controller('TownCtrl', ['$scope', '$meteor', '$state', '$timeout', ($scope, $meteor, $state, $timeout) ->
 	$scope.town = $scope.$meteorObject(Town.db, $state.params['town_id'])
 	$scope.civilians = $scope.$meteorCollection -> Civilian.db.find(town_id: $state.params['town_id'])
 
@@ -7,6 +7,16 @@ angular.module('civilian').controller('TownCtrl', ['$scope', '$meteor', '$state'
 	$scope.selectedHistory = []
 
 	$scope.dotDisplay = 'Happiness'
+
+	$timeout ->
+		jsPlumb.ready ->
+			$scope.canvas = jsPlumb.getInstance(
+				Container: "canvas"
+				Connector: "StateMachine",
+				PaintStyle: { lineWidth: 3, strokeStyle: "rgb(78, 78, 78)" },
+				Endpoint: [ "Dot", { radius: 5 } ],
+				EndpointStyle: { fillStyle: "rgb(78, 78, 78)" },
+			)
 
 	# $interval( ->
 	# 	$scope.processTown()
@@ -28,6 +38,17 @@ angular.module('civilian').controller('TownCtrl', ['$scope', '$meteor', '$state'
 	$scope.selectCivilian = (civilian) ->
 		$scope.selectedCivilian = civilian
 		$scope.selectedHistory = Action.db.find({$or: [{target_id: civilian['_id']}, {source_id: civilian['_id']}]}, {sort: {'time': -1}}).fetch()
+
+		$scope.canvas.detachEveryConnection()
+		influencee_ids = _.pluck(civilian['relationships'], 'other_id')
+		for id in influencee_ids
+			target = document.getElementById(id)
+			source = document.getElementById(civilian['_id'])
+			anchors = [
+				["Perimeter", { shape: 'Circle'}]
+				["Perimeter", { shape: 'Circle'}]
+			]
+			$scope.canvas.connect({target, source, anchors})
 
 	$scope.isCivilianSelected = (civilian) ->
 		return $scope.selectedCivilian is civilian

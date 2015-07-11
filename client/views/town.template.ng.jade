@@ -12,9 +12,10 @@
 			label.btn.btn-xs.btn-default(ng-model="dotDisplay" btn-radio="'Happiness'") Happiness
 			label.btn.btn-xs.btn-default(ng-model="dotDisplay" btn-radio="'Disposition'") Disposition
 
-		.town-canvas
+		.town-canvas#canvas
 			.civilian-dots
 				.civilian-dot(
+					id="{{civilian._id}}"
 					ng-repeat="civilian in civilians"
 					ng-click="selectCivilian(civilian)"
 					ng-class="{'selected': isCivilianSelected(civilian), 'highlighted': isCivilianHighlighted(civilian)}"
